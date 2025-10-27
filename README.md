@@ -1,3 +1,6 @@
+
+ 
+ 
  _   _ __  __                       _             
 | \ | |  \/  |   __ _ _ __ ___   __| | ___  _ __  
 |  \| | |\/| |  / _` | '__/ _ \ / _` |/ _ \| '_ \ 
@@ -5,11 +8,7 @@
 |_| \_|_|  |_|  \__,_|_|  \___/ \__,_|\___/|_| |_|
 
          Nmap Basics — Lab 
-
-
-# 🧪 Lab 01 — Nmap Basics (Loi Liang Yang Tutorial)
-
-This lab documents my hands-on learning from [Loi Liang Yang's Nmap tutorial](https://www.youtube.com/watch?v=LTMucsu35dk). It covers foundational Nmap scan types, their syntax, output interpretation, and ethical usage.
+         
 
 ---
 
